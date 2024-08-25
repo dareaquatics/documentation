@@ -16,7 +16,7 @@ search:
   button: false
   focus_shortcut_key: 'k'
 
-footer_content: "Copyright &copy; 2017-2020 DARE Aquatics. Distributed by an <a href=\"https://dareaquatics.com/license\">GPLv3 license.</a>"
+footer_content: "Copyright &copy; 2024 DARE Aquatics. Licensed by <a href=\"https://dareaquatics.com/license\">GPLv3.</a>"
 
 callouts:
   danger:
@@ -26,7 +26,7 @@ callouts:
     title: Warning
     color: yellow
   note: 
-    title: note
+    title: Note
     color: blue
   
 gh_edit_link: true # show or hide edit this page link
