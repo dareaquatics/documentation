@@ -16,30 +16,35 @@ concurrency:
 
 jobs:
   # Build job
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+build:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3' # Adjust according to your .ruby-version file if you have one
-          bundler-cache: true # Caches installed gems to speed up builds
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
 
-      - name: Build site with Jekyll
-        run: |
-          bundle config set path 'vendor/bundle' # Ensures gems are installed in a consistent path
-          bundle install --jobs 4 --retry 3 # Install gems
-          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
+    - name: Unfreeze bundle
+      run: bundle config --delete frozen
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
+    - name: Install dependencies
+      run: |
+        bundle config set path 'vendor/bundle'
+        bundle install --jobs 4 --retry 3
+
+    - name: Build site with Jekyll
+      run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+      env:
+        JEKYLL_ENV: production
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: _site
 
   # Deployment job
   deploy:
